@@ -39,4 +39,12 @@ export const tasks = [
  priority: 'Средний',
  dueDate: '31 декабря',
  },
+ {
+ id: 6,
+ title: 'Сделать Конфигурационное управление',
+ project: 'Обучение',
+ status: 'Нужно сделать',
+ priority: 'Средний',
+ dueDate: '31 декабря',
+ },
 ];

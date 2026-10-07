@@ -4,7 +4,7 @@
 :root {
  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
 "Segoe UI", sans-serif;
- color: #172033;
+ color: #000000;
  background: #f5f7fb;
  font-synthesis: none;
  text-rendering: optimizeLegibility;
@@ -111,7 +111,7 @@ button:focus-visible {
 }
 .eyebrow {
  margin: 0 0 6px;
- color: #4f46e5;
+ color: #009d93;
  font-weight: 800;
  font-size: 12px;
  letter-spacing: 0.08em;
@@ -141,12 +141,12 @@ h1 {
  font-weight: 700;
 }
 .primaryButton {
- border: 1px solid #4f46e5;
- background: #4f46e5;
+ border: 1px solid #009d93;
+ background: #009d93;
  color: white;
 }
 .primaryButton:hover {
- background: #4338ca;
+ background: #009d93;
 }
 .ghostButton {
  border: 1px solid #d9deea;
