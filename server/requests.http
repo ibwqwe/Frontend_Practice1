@@ -1,19 +1,112 @@
-### Регистрация 
-POST http://localhost:3000/api/auth/register 
-Content-Type: application/json 
-  
-{ 
- 
-  "name": "Алексей", 
-  "email": "alexey@example.com", 
-  "password": "password123" 
-} 
-  
-### Текущий пользователь 
-GET http://localhost:3000/api/auth/me 
-  
-### Задачи текущего пользователя 
-GET http://localhost:3000/api/tasks 
-  
-### Выход 
-POST http://localhost:3000/api/auth/logout
+@baseUrl = http://localhost:3000
+
+### Регистрация (повторный запуск вернёт 409, тогда используйте вход)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Алексей",
+  "email": "alexey@example.com",
+  "password": "password123"
+}
+
+### Вход
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "alexey@example.com",
+  "password": "password123"
+}
+
+### Текущий пользователь
+GET {{baseUrl}}/api/auth/me
+
+### Проверка сервера и базы
+GET {{baseUrl}}/api/health
+
+### Задачи текущего пользователя
+GET {{baseUrl}}/api/tasks
+
+### Фильтр по статусу
+GET {{baseUrl}}/api/tasks?status=Готово
+
+### Фильтр по проекту
+GET {{baseUrl}}/api/tasks?project=TaskFlow
+
+### Статистика
+GET {{baseUrl}}/api/stats
+
+### Создать задачу (id сохраняется для следующих запросов)
+# @name createTask
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Проверить финальную версию",
+  "description": "Прогнать все запросы",
+  "project": "TaskFlow",
+  "status": "В работе",
+  "priority": "Высокий",
+  "dueDate": "2026-10-01"
+}
+
+### Получить созданную задачу
+GET {{baseUrl}}/api/tasks/{{createTask.response.body.id}}
+
+### Изменить статус
+PATCH {{baseUrl}}/api/tasks/{{createTask.response.body.id}}
+Content-Type: application/json
+
+{
+  "status": "Готово"
+}
+
+### Удалить созданную задачу
+DELETE {{baseUrl}}/api/tasks/{{createTask.response.body.id}}
+
+### Ошибка 400: неверный статус
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Проверить финальную версию",
+  "project": "TaskFlow",
+  "status": "Когда-нибудь",
+  "priority": "Высокий",
+  "dueDate": "2026-10-01"
+}
+
+### Ошибка 400: неверный формат срока
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Проверка даты",
+  "project": "TaskFlow",
+  "dueDate": "30.09.2026"
+}
+
+### Ошибка 400: неправильный UUID
+GET {{baseUrl}}/api/tasks/abc
+
+### Ошибка 404: задачи с таким UUID нет
+GET {{baseUrl}}/api/tasks/00000000-0000-4000-8000-000000000000
+
+### Ошибка 404: неизвестный endpoint
+GET {{baseUrl}}/api/unknown
+
+### Ошибка 401: неверный пароль
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "alexey@example.com",
+  "password": "wrongpassword"
+}
+
+### Выход
+POST {{baseUrl}}/api/auth/logout
+
+### Ошибка 401: задачи после выхода
+GET {{baseUrl}}/api/tasks
