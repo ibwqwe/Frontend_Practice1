@@ -1,89 +1,19 @@
-@baseUrl = http://localhost:3000
-@taskId = 11111111-1111-4111-8111-111111111111
-@deleteTaskId = 33333333-3333-4333-8333-333333333333
-
-### Проверка сервера и PostgreSQL
-GET {{baseUrl}}/api/health
-
-### Получить все задачи
-GET {{baseUrl}}/api/tasks
-
-### Фильтр по статусу
-GET {{baseUrl}}/api/tasks?status=Готово
-
-### Фильтр по приоритету
-GET {{baseUrl}}/api/tasks?priority=Высокий
-
-### Получить одну задачу
-GET {{baseUrl}}/api/tasks/{{taskId}}
-
-### Создать задачу
-POST {{baseUrl}}/api/tasks
-Content-Type: application/json
-
-{
-  "title": "Подключить PostgreSQL",
-  "project": "TaskFlow",
-  "status": "Нужно сделать",
-  "priority": "Высокий",
-  "dueDate": "2026-09-30"
-}
-
-### Ошибка 400: пустой title
-POST {{baseUrl}}/api/tasks
-Content-Type: application/json
-
-{
-  "title": "",
-  "project": "TaskFlow",
-  "status": "Нужно сделать",
-  "priority": "Средний"
-}
-
-### Изменить существующую задачу
-PATCH {{baseUrl}}/api/tasks/{{taskId}}
-Content-Type: application/json
-
-{
-  "status": "Готово",
-  "priority": "Средний"
-}
-
-### Удалить существующую задачу
-DELETE {{baseUrl}}/api/tasks/{{deleteTaskId}}
-
-### Ошибка 400: неправильный UUID
-GET {{baseUrl}}/api/tasks/abc
-
-### Ошибка 404: корректный UUID, но задачи нет
-GET {{baseUrl}}/api/tasks/00000000-0000-4000-8000-000000000000
-
-### Ошибка 404: неизвестный endpoint
-GET {{baseUrl}}/api/unknown
-
-### ===== САМОСТОЯТЕЛЬНОЕ ЗАДАНИЕ =====
-
-### Фильтр по проекту
-GET {{baseUrl}}/api/tasks?project=TaskFlow
-
-### Создать задачу с description
-POST {{baseUrl}}/api/tasks
-Content-Type: application/json
-
-{
-  "title": "Написать отчёт",
-  "description": "Отчёт по практике 4",
-  "project": "TaskFlow",
-  "dueDate": "2026-10-05"
-}
-
-### Изменить description
-PATCH {{baseUrl}}/api/tasks/{{taskId}}
-Content-Type: application/json
-
-{
-  "description": "Новое описание задачи"
-}
-
-### Статистика (COUNT)
-GET {{baseUrl}}/api/stats
+### Регистрация 
+POST http://localhost:3000/api/auth/register 
+Content-Type: application/json 
+  
+{ 
+ 
+  "name": "Алексей", 
+  "email": "alexey@example.com", 
+  "password": "password123" 
+} 
+  
+### Текущий пользователь 
+GET http://localhost:3000/api/auth/me 
+  
+### Задачи текущего пользователя 
+GET http://localhost:3000/api/tasks 
+  
+### Выход 
+POST http://localhost:3000/api/auth/logout
